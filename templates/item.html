@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="d-flex justify-content-between my-2">
+    <a class="btn btn-outline-primary" href="/main" role="button">На главную</a>
+    <a class="btn btn-outline-primary" href="/order" role="button">Корзина
+        <span id="badgeButton"
+              class="badge badge-light">{% if the_order_length != 0%} {{ the_order_length }} {% endif %}</span>
+    </a>
+</div>
+<hr>
+<form id="itemForm">
+    <div class="form-group">
+        <label for="inputItem">Товар</label>
+        <input id="inputItem" name="item" type='TEXT' class="form-control" aria-describedby="itemHelp">
+        <small id="itemlHelp" class="form-text text-muted">Что купить?</small>
+    </div>
+    <div class="form-group">
+        <label for="commentItem">Комментарий</label>
+        <textarea id="commentItem" name="comment" class="form-control" aria-describedby="commentHelp"
+                  rows="5"></textarea>
+        <small id="commentHelp" class="form-text text-muted">Какие будут комментарии?</small>
+    </div>
+    <input name="is_checked" value="false" type="hidden">
+</form>
+<div class="row float-left">
+    <div class="col text-center my-2">
+        <button id="submit-button" class="btn btn-primary btn-block my-2" type="button">
+            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+            Добавить в Корзину
+        </button>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    $('#submit-button').click(function() {
+    var _this = $(this);
+    var formData = $('#itemForm').serialize();
+    $.ajax({
+            url: '/item',
+            data: formData,
+            method: 'POST',
+            dataType: 'json',
+            beforeSend: function () {
+                _this.prop('disabled', true)
+                _this.find('.spinner-border').removeClass('d-none');
+                $('#inputItem').prop('disabled', true)
+                $('#commentItem').prop('disabled', true)
+            },
+            success: function(data) {
+                window.setTimeout(function(){
+                    if (data.order_length == 0) {
+                        $('#badgeButton').empty()
+                    } else {
+                        $('#badgeButton').text(data.order_length);
+                    }
+                    $('#itemForm')[0].reset();
+                }, 100);
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        })
+        .always(function(){
+            window.setTimeout(function(){
+                _this.prop('disabled', false)
+                _this.find('.spinner-border').addClass('d-none');
+                $('#inputItem').prop('disabled', false)
+                $('#commentItem').prop('disabled', false)
+            }, 100);
+        });
+    });
+});
+
+
+
+
+</script>
+{% endblock %}

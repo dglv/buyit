@@ -1,0 +1,110 @@
+html, body {
+  font-family:      Verdana, Geneva, Arial, sans-serif;
+  font-size:        medium;
+  background-color: #FFE0B2;
+  padding:          0.2rem;
+}
+input[type=checkbox]:checked + label.strikethrough{
+  text-decoration: line-through;
+}
+#notify-all-completed {
+    outline: none !important;
+}
+.remove-button {
+    border: none;
+    background-color: transparent;
+    outline: none;
+}
+.card {
+    background-color: transparent;
+}
+.card-header {
+    padding: 0.5rem;
+    background-color: transparent;
+    border-bottom: None;
+}
+.card-body {
+    padding: 0rem 0.5rem 0.5rem 0.5rem;
+    background-color: transparent;
+}
+.mybadge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 6px;
+  border: 1px solid transparent;
+  min-width: 10px;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  border-radius: 99999px;
+}
+
+.mybadge.badge-default {
+  background-color: #B0BEC5;
+}
+
+.mybadge.badge-primary {
+  background-color: #2196F3;
+}
+
+.mybadge.badge-secondary {
+  background-color: #323a45;
+}
+
+.mybadge.badge-success {
+  background-color: #13c53c;
+}
+
+.mybadge.badge-warning {
+  background-color: #FFD600;
+}
+
+.mybadge.badge-info {
+  background-color: #29B6F6;
+}
+
+.mybadge.badge-danger {
+  background-color: #ef1c1c;
+}
+
+.mybadge.badge-outlined {
+  background-color: transparent;
+}
+
+.mybadge.badge-outlined.badge-default {
+  border-color: #B0BEC5;
+  color: #B0BEC5;
+}
+
+.mybadge.badge-outlined.badge-primary {
+  border-color: #2196F3;
+  color: #2196F3;
+}
+
+.mybadge.badge-outlined.badge-secondary {
+  border-color: #323a45;
+  color: #323a45;
+}
+
+.mybadge.badge-outlined.badge-success {
+  border-color: #13c53c;
+  color: #13c53c;
+}
+
+.mybadge.badge-outlined.badge-warning {
+  border-color: #FFD600;
+  color: #FFD600;
+}
+
+.mybadge.badge-outlined.badge-info {
+  border-color: #29B6F6;
+  color: #29B6F6;
+}
+
+.mybadge.badge-outlined.badge-danger {
+  border-color: #ef1c1c;
+  color: #ef1c1c;
+}

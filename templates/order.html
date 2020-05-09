@@ -1,0 +1,261 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="d-flex justify-content-between my-2">
+    <a class="btn btn-outline-primary" href="/main" role="button">На главную</a>
+    <a class="btn btn-outline-primary" href="/item" role="button">Товары</a>
+</div>
+<hr>
+<div class="row justify-content-center my-3">
+    <div id="notify-empty" class="text-center" {% if the_order is defined and the_order|length %} hidden="true" {%
+         endif %}>
+        <span class="mybadge badge-secondary badge-outlined badge-pill">
+            список пуст
+        </span>
+    </div>
+    <div id="notify-all-completed" class="text-center" hidden="true">
+        <span class="mybadge badge-success badge-outlined badge-pill">
+            все выполнено
+        </span>
+    </div>
+</div>
+{% for key, value in the_order.items() %}
+<form name="order-form">
+    <input type="hidden" name="item" value="{{ key }}">
+    <input type="hidden" name="comment" value="{{ value['comment'] }}">
+    <input type="hidden" name="is_checked">
+    <div class="card mb-1">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="checkBox{{ key }}" {% if value['is_checked']
+                        ==
+                        'true'
+                        %}
+                        checked="checked" {% endif %}>
+                        <label name="item-label" {% if value['is_checked'] == 'true' %} class="form-check-label
+                        strikethrough" {% else %}
+                        class="form-check-label" {% endif %} >{{ key }}</label>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <a class="remove-button" role="button"><img src="static/clean-15.png"/></a>
+                </div>
+            </div>
+        </div>
+        <div id="collapsible-card-body" {% if value[
+        'is_checked'] == 'true' or value['comment'] == ''%} class="collapse" {% endif %}>
+        <div class="card-body">
+            <small class="form-text text-muted" id="comment{{ key }}">{{ value['comment'] }}</small>
+        </div>
+    </div>
+    </div>
+</form>
+{% endfor %}
+<div class="row float-left">
+    <div class="col text-center my-2">
+        <button id="removeCompleted" class="btn btn-primary btn-block my-2" type="button" {% if the_order is defined and
+                the_order|length== 0 %}
+                disabled="true" {% endif %}>
+            <span id="removeCompletedSpinner" class="spinner-border spinner-border-sm d-none" role="status"
+                  aria-hidden="true"></span>
+            Удалить Зачеркнутое
+        </button>
+        <button id="removeAll" class="btn btn-danger btn-block my-2" type="button" {% if the_order is
+                defined and the_order|length== 0 %}
+                disabled="true" {% endif %}>
+            <span id="removeAllSpinner" class="spinner-border spinner-border-sm d-none" role="status"
+                  aria-hidden="true"></span>
+            Очистить Корзину
+        </button>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    if ($('form[name="order-form"]').length > 0 && $('.form-check-input').not(':checked').length == 0) {
+        $('#notify-all-completed').prop('hidden', false);
+    } else {
+        $('#notify-all-completed').prop('hidden', true);
+    }
+
+    var itemRemover = {
+        init: function(elem) {
+            elem.on('click', function(e) {
+                self=$(this);
+                var form_this = self.parents('form:first')
+                var item = form_this.find('input[name=item]').val()
+                e.preventDefault();
+                if(confirm('Удалить ' + item + '?')) {
+                    $.ajax({
+                        url: '/item',
+                        method: 'DELETE',
+                        data: {'item':item},
+                        dataType: 'json',
+                        success: function(data) {
+                            self.parents('form:first').remove()
+                            if($('form[name="order-form"]').length == 0){
+                                $('#removeCompleted').prop('disabled', true)
+	                            $('#removeAll').prop('disabled', true)
+                                $('#notify-empty').prop('hidden', false)
+                            }
+                        },
+                        error: function(data) {
+                            alert("Error while deleting.");
+                            console.log(data);
+                        }
+                    });
+                };
+            })
+        },
+    }
+    itemRemover.init($('.remove-button'));
+    
+    $(".form-check-input").click(function(){
+        if ($('.form-check-input').not(':checked').length == 0) {
+            $('#notify-all-completed').prop('hidden', false);
+            $('#notify-all-completed').attr('tabindex', -1).focus();
+        } else {
+            $('#notify-all-completed').prop('hidden', true);
+        }
+    });
+    
+    $('.form-check-input').click(function() {
+    var checkbox_this = $(this);
+    var form_this = $(this).parents('form:first')
+    var is_checked = form_this.find('input[name=is_checked]')
+    var commented = form_this.find('input[name=comment]')
+   
+    if( checkbox_this.is(":checked") == true ) {
+        is_checked.attr('value', true);
+    } else {
+        is_checked.attr('value', false);
+    }
+    var formData = form_this.serialize();
+    $.ajax({
+            url: '/item',
+            data: formData,
+            method: 'POST',
+            dataType: 'json',
+            success: function(data) {
+                if( checkbox_this.is(":checked") == true ) {
+                    form_this.find('[name=item-label]').addClass('strikethrough')
+                    form_this.find('[id=collapsible-card-body]').addClass('collapse')
+                } else {
+                    form_this.find('[name=item-label]').removeClass('strikethrough')
+                    if ( commented.val() != '') {
+                        form_this.find('[id=collapsible-card-body]').removeClass('collapse')
+                    }
+                }
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+    });
+    
+    var completedItemRemover = {
+        init: function(elem) {
+            elem.on('click', function(e) {
+                _this=$(this);
+                var forms_to_remove = []
+                var items = [];
+                $('form[name="order-form"]').each(function() {
+                    _form=$(this);
+                    var checkbox = _form.find('.form-check-input');
+                    if( checkbox.is(":checked") == true ) {
+                        forms_to_remove.push(_form);
+                        items.push(_form.find('[name=item-label]').text());
+                    }
+                });
+                e.preventDefault();
+                if(confirm('Удалить Зачеркнутое?')) {
+                    $.ajax({
+                        url: '/items',
+                        method: 'DELETE',
+                        data: {
+                            items: JSON.stringify(items) 
+                        },
+                        dataType: 'html',
+                        beforeSend: function () {
+                            _this.prop('disabled', true);
+                            _this.find('[id=removeCompletedSpinner]').removeClass('d-none');
+                        },
+                        success: function(data) {
+                            window.setTimeout(function(){
+                                forms_to_remove.forEach(form => form.remove());
+                                if($('form[name="order-form"]').length == 0){
+                                    $('#removeCompleted').prop('disabled', true)
+	                                $('#removeAll').prop('disabled', true)
+                                    $('#notify-empty').prop('hidden', false)
+                                    $('#notify-all-completed').prop('hidden', true);
+                                } else {
+                                    _this.prop('disabled', false);
+                                }
+                            }, 100);    
+                        },
+                        error: function(data) {
+                            _this.prop('disabled', false);
+                            alert("Error while deleting.");
+                            console.log(data);
+                        }
+                    })
+                    .always(function(){
+                        window.setTimeout(function(){
+                            _this.find('[id=removeCompletedSpinner]').addClass('d-none');
+                        }, 100);
+                    });
+                };
+            })
+        },
+    }
+    completedItemRemover.init($('#removeCompleted'));
+        
+    var allItemRemover = {
+        init: function(elem) {
+            elem.on('click', function(e) {
+                var _this = $(this);
+                e.preventDefault();
+                if(confirm('ВСЕ ДАННЫЕ будут удалены. Вы уверены?')) {
+                    $.ajax({
+                        url: '/order',
+                        method: 'DELETE',
+                        beforeSend: function () {
+                            _this.prop('disabled', true);
+                            _this.find('[id=removeAllSpinner]').removeClass('d-none');
+                        },
+                        success: function(data) {
+                            window.setTimeout(function(){
+                                $('form[name="order-form"]').remove();
+                                _this.prop('disabled', true);
+                                $('#removeCompleted').prop('disabled', true)
+                                $('#notify-empty').prop('hidden', false);
+                                $('#notify-all-completed').prop('hidden', true);
+                            }, 100);
+                        },
+                        error: function(data) {
+                            _this.prop('disabled', false);
+                            alert("Error while deleting.");
+                            console.log(data);
+                        }
+                    })
+                    .always(function(){
+                        window.setTimeout(function(){
+                            _this.find('[id=removeAllSpinner]').addClass('d-none');
+                        }, 100);
+                    });
+                };
+            })
+        },
+    }
+    allItemRemover.init($('#removeAll'));
+});
+
+
+
+
+
+
+</script>
+{% endblock %}

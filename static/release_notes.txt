@@ -1,0 +1,55 @@
+*****************
+* Release 0.3.0 * 
+***************** 
+[Minor, NOT_STARTED]
+- Move to MySQL database.
+- Implement multiple orders.
+
+*****************
+* Release 0.2.2 * 
+***************** 
+[Bugfix, IN PROGRESS, planned_date=5/9/2020]
+- Fix issues related to long comments on the Order page.
+- Fix issues related to long names for items on the Order page.
+- Fix possible issues connected with multiple items on the Order page.
+- Add validation for editable fields on the Order page.
+
+*****************
+* Release 0.2.1 * 
+***************** 
+[Bugfix, COMPLETED, release_date=5/8/2020]
++ Add spinners for time-consuming ajax requests.
++ Fix enabled RemoveAll button when item list is empty on the Order page.
++ Add RemoveCompleted button on the Order page.
++ Add OrderPage link on the Item page.
++ Add AllCompleted banner on the Item page.
+
+*****************
+* Release 0.2.0 * 
+***************** 
+[Minor, COMPLETED, release_date=5/6/2020]
++ Make adaptive pages by using Bootstrap 4.
++ Send ajax request when any item is added on the Item page.
++ Clean fields after adding the items on the Item page.
++ Make the items in the order as cards on the Order page.
++ Hide comments when item` text is strikethroughed.
+
+*****************
+* Release 0.1.1 * 
+***************** 
+[Bugfix, COMPLETED, release_date=5/4/2020]
++ Fix the case when checkbox statuses are not kept after page reloading on the Order page.
++ Add removing per item on the Order page.
++ Add confirmation for removing the items
++ Fix incorrect data format for the order
+
+*****************
+* Release 0.1.0 * 
+*****************
+[Minor, COMPLETED, release_date=5/1/2020]
++ create basic Order, Item and About pages.
++ add jinja2 for rendering html templates.
++ add Flask-Mobility to enable html templates for mobiles.
++ develop CRUD API method for the orders and items.
++ implement strikethrough text in the label when checkbox is checked on the Order page.
++ added release notes.
