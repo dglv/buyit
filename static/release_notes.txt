@@ -10,6 +10,7 @@
 [Bugfix, IN PROGRESS, planned_date=5/12/2020]
 - Fix possible issues connected with multiple items on the Order page.
 - Implement multiple orders.
+- Adjust height in custom banners.
 
 *****************
 * Release 0.2.2 * 
