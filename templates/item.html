@@ -25,21 +25,22 @@
         <small id="commentHelp" class="form-text text-muted">Какие будут комментарии?</small>
     </div>
     <input name="is_checked" value="false" type="hidden">
-    <div class="row float-left">
-        <div class="col text-center my-2">
-            <button id="submit-button" type="submit" class="btn btn-primary btn-block my-2" type="button">
-                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
-                Добавить в Корзину
-            </button>
-        </div>
-    </div>
 </form>
+<div class="row float-left">
+    <div class="col text-center my-2">
+        <button id="submit-button" class="btn btn-primary btn-block my-2" type="button">
+            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+            Добавить в Корзину
+        </button>
+    </div>
+</div>
 
 <script>
-$('#itemForm').submit(function (event) {
+$('#submit-button').click(function (event) {
     if ($('#itemForm')[0].checkValidity() === false) {
         event.preventDefault();
         event.stopPropagation();
+        $('#itemForm').addClass('was-validated');
     } else {
         var _this = $(this);
         var formData = $('#itemForm').serialize();
@@ -74,10 +75,10 @@ $('#itemForm').submit(function (event) {
                 _this.find('.spinner-border').addClass('d-none');
                 $('#inputItem').prop('disabled', false)
                 $('#commentItem').prop('disabled', false)
+                $('#itemForm').removeClass('was-validated');
             }, 100);
         });
     }
-    $('#itemForm').addClass('was-validated');
 });
 
 </script>
