@@ -99,6 +99,7 @@ $(document).ready(function() {
                                 $('#removeCompleted').prop('disabled', true)
 	                            $('#removeAll').prop('disabled', true)
                                 $('#notify-empty').prop('hidden', false)
+                                $('#notify-all-completed').prop('hidden', true);
                             }
                         },
                         error: function(data) {
@@ -180,6 +181,7 @@ $(document).ready(function() {
                         dataType: 'html',
                         beforeSend: function () {
                             _this.prop('disabled', true);
+                            $('#removeAll').prop('disabled', true)
                             _this.find('[id=removeCompletedSpinner]').removeClass('d-none');
                         },
                         success: function(data) {
@@ -192,11 +194,13 @@ $(document).ready(function() {
                                     $('#notify-all-completed').prop('hidden', true);
                                 } else {
                                     _this.prop('disabled', false);
+                                    $('#removeAll').prop('disabled', false)
                                 }
                             }, 100);    
                         },
                         error: function(data) {
                             _this.prop('disabled', false);
+                            $('#removeAll').prop('disabled', false)
                             alert("Error while deleting.");
                             console.log(data);
                         }
@@ -223,6 +227,7 @@ $(document).ready(function() {
                         method: 'DELETE',
                         beforeSend: function () {
                             _this.prop('disabled', true);
+                            $('#removeCompleted').prop('disabled', true)
                             _this.find('[id=removeAllSpinner]').removeClass('d-none');
                         },
                         success: function(data) {
@@ -236,6 +241,7 @@ $(document).ready(function() {
                         },
                         error: function(data) {
                             _this.prop('disabled', false);
+                            $('#removeCompleted').prop('disabled', false)
                             alert("Error while deleting.");
                             console.log(data);
                         }

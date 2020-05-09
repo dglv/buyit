@@ -9,10 +9,13 @@
     </a>
 </div>
 <hr>
-<form id="itemForm">
+<form id="itemForm" class="needs-validation" novalidate>
     <div class="form-group">
         <label for="inputItem">Товар</label>
-        <input id="inputItem" name="item" type='TEXT' class="form-control" aria-describedby="itemHelp">
+        <input id="inputItem" name="item" type='TEXT' class="form-control" aria-describedby="itemHelp" required>
+        <div class="invalid-feedback">
+            Отсутствует название товара
+        </div>
         <small id="itemlHelp" class="form-text text-muted">Что купить?</small>
     </div>
     <div class="form-group">
@@ -22,21 +25,25 @@
         <small id="commentHelp" class="form-text text-muted">Какие будут комментарии?</small>
     </div>
     <input name="is_checked" value="false" type="hidden">
-</form>
-<div class="row float-left">
-    <div class="col text-center my-2">
-        <button id="submit-button" class="btn btn-primary btn-block my-2" type="button">
-            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
-            Добавить в Корзину
-        </button>
+    <div class="row float-left">
+        <div class="col text-center my-2">
+            <button id="submit-button" type="submit" class="btn btn-primary btn-block my-2" type="button">
+                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                Добавить в Корзину
+            </button>
+        </div>
     </div>
-</div>
+</form>
+
 <script>
-$(document).ready(function() {
-    $('#submit-button').click(function() {
-    var _this = $(this);
-    var formData = $('#itemForm').serialize();
-    $.ajax({
+$('#itemForm').submit(function (event) {
+    if ($('#itemForm')[0].checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+    } else {
+        var _this = $(this);
+        var formData = $('#itemForm').serialize();
+        $.ajax({
             url: '/item',
             data: formData,
             method: 'POST',
@@ -69,11 +76,9 @@ $(document).ready(function() {
                 $('#commentItem').prop('disabled', false)
             }, 100);
         });
-    });
+    }
+    $('#itemForm').addClass('was-validated');
 });
-
-
-
 
 </script>
 {% endblock %}
