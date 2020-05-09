@@ -27,6 +27,13 @@ input[type=checkbox]:checked + label.strikethrough{
     padding: 0rem 0.5rem 0.5rem 0.5rem;
     background-color: transparent;
 }
+
+label {
+    width:100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
 .mybadge {
   display: inline-block;
   font-size: small;

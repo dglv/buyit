@@ -3,16 +3,21 @@
 ***************** 
 [Minor, NOT_STARTED]
 - Move to MySQL database.
+
+*****************
+* Release 0.2.3 * 
+***************** 
+[Bugfix, IN PROGRESS, planned_date=5/12/2020]
+- Fix possible issues connected with multiple items on the Order page.
 - Implement multiple orders.
 
 *****************
 * Release 0.2.2 * 
 ***************** 
-[Bugfix, IN PROGRESS, planned_date=5/9/2020]
-- Fix issues related to long comments on the Order page.
-- Fix issues related to long names for items on the Order page.
-- Fix possible issues connected with multiple items on the Order page.
-- Add validation for editable fields on the Item page.
+[Bugfix, COMPLETED, release_date=5/10/2020]
++ Fix issues related to long comments on the Order page.
++ Fix issues related to long names for items on the Order page.
++ Add validation for editable fields on the Item page.
 
 *****************
 * Release 0.2.1 * 
