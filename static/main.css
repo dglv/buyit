@@ -36,8 +36,8 @@ label {
 
 .mybadge {
   display: inline-block;
-  font-size: small;
-  padding: 3px 6px;
+  font-size: x-small;
+  padding: 4px 6px;
   border: 1px solid transparent;
   min-width: 10px;
   line-height: 1;
@@ -53,7 +53,7 @@ label {
 }
 
 .mybadge.badge-primary {
-  background-color: #2196F3;
+  background-color: #007bff;
 }
 
 .mybadge.badge-secondary {
