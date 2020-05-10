@@ -8,14 +8,29 @@ app = Flask(__name__)
 @app.route('/', methods=['GET'])
 @app.route('/main', methods=['GET'])
 def render_main_page():
-    return render_template('main.html', the_title='Выберите действие')
+    orders_lengths = [15, 0, 10, 0, 0, 0, 8, 11]
+    return render_template('main.html',
+                           the_title='Выберите корзину',
+                           the_orders_lengths=orders_lengths)
 
 
 @app.route('/item', methods=['GET'])
 def render_item_page():
+    order_id = request.args.get('order_id')
     return render_template('item.html',
                            the_title='Создание Заказа',
+                           the_order_id=order_id,
                            the_order_length=len(service.get_order()))
+
+
+@app.route('/order', methods=['GET'])
+def render_order_page():
+    order_id = request.args.get('order_id')
+    order = service.get_order()
+    return render_template('order.html',
+                           the_order_id=order_id,
+                           the_title='Выполнение Заказа',
+                           the_order=order)
 
 
 @app.route('/item', methods=['POST'])
@@ -45,14 +60,6 @@ def remove_items():
         for i in items:
             service.remove_item(i)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
-
-
-@app.route('/order', methods=['GET'])
-def render_order_page():
-    order = service.get_order()
-    return render_template('order.html',
-                           the_title='Выполнение Заказа',
-                           the_order=order)
 
 
 @app.route('/about', methods=['GET'])

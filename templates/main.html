@@ -1,11 +1,23 @@
 {% extends 'base.html' %}
 {% block body %}
+
+{% for order_length in the_orders_lengths %}
+    {% if loop.index % 2 != 0 %}
+    <div class="row">
+        <div class="col text-center my-2">
+            <a class="btn btn-block {% if order_length == 0 %} btn-outline-primary"  href="/item?order_id={{loop.index}}" {% else %} btn-outline-secondary"  href="/order?order_id={{loop.index}}" {% endif %}" role="button">Корзина {{loop.index}}</a>
+        </div>
+    {% else %}
+        <div class="col text-center my-2">
+            <a class="btn btn-block {% if order_length == 0 %} btn-outline-primary"  href="/item?order_id={{loop.index}}" {% else %} btn-outline-secondary"  href="/order?order_id={{loop.index}}" {% endif %}" role="button">Корзина {{loop.index}}</a>
+        </div>
+    </div>
+    {% endif %}
+{% endfor %}
 <div class="row">
     <div class="col text-center my-2">
         <div class="btn-group-vertical">
-            <a class="btn btn-primary btn-block my-2" href="/item" role="button">Товары</a>
-            <a class="btn btn-primary btn-block my-2" href="/order" role="button">Корзина</a>
-            <a class="btn btn-secondary btn-block my-2" href="/about" role="button">О Программе</a>
+            <a class="btn btn-primary btn-block my-2" href="/about" role="button">О Программе</a>
         </div>
     </div>
 </div>
