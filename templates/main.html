@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block body %}
-
+<div class="d-flex justify-content-center">
+    <h5>{{ the_title }}</h5>
+</div>
 {% for order_length in the_orders_lengths %}
     {% if loop.index % 2 != 0 %}
     <div class="row">
