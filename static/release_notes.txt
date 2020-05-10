@@ -13,6 +13,7 @@
 + Adjust height in custom banners.
 - Create a custom header on each page.
 - Add Refresh button on each page.
++ Change RemoveItem icons to crosses.
 
 *****************
 * Release 0.2.2 * 
