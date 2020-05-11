@@ -1,8 +1,14 @@
 *****************
-* Release 0.3.0 *
+* Release 0.4.0 *
 *****************
 [Minor, NOT_STARTED]
 - Move to MySQL database.
+
+*****************
+* Release 0.3.0 *
+*****************
+[Bugfix, NOT_STARTED]
+- Implement grouping by item types.
 
 *****************
 * Release 0.2.5 *
@@ -14,8 +20,8 @@
 *****************
 * Release 0.2.4 *
 *****************
-[Bugfix, NOT_STARTED, planned_date=5/11/2020]
-- Implement grouping by item types.
+[Bugfix, NOT_STARTED]
+- Allow users to edit their cards.
 
 *****************
 * Release 0.2.3 *
@@ -27,6 +33,9 @@
 + Add Refresh button on each page.
 + Change RemoveItem icons to crosses.
 - Fix CopyToClipboard button on each page.
+- Fix hover when an user click any image in the navbar.
+- Fix tight navbar on the About and Release pages.
+- Fix OrderNumber title in the navbar on the Item and Order page.
 
 *****************
 * Release 0.2.2 *
