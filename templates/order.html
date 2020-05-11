@@ -5,7 +5,7 @@
     <div class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
            aria-haspopup="true" aria-expanded="false">
-            <span><i class="fas fa-fw fa-bars"></i>Главная</span>
+            <span><i class="fas fa-fw fa-bars"></i>Корзина {{the_order_id}}</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="/about">О Программе</a>
@@ -15,13 +15,13 @@
         <a href="/main"><i class="fas fa-home"></i></a>
     </div>
     <div class="nav-item">
-        <a class="nav-link disabled" href="#"><i class="fas fa-external-link-alt"></i></a>
+        <a class="nav-link" onclick="copyToClipboard()"><i class="fas fa-external-link-alt"></i></a>
     </div>
     <div class="nav-item">
         <a href="javascript:window.location.reload(true)"><i class="fas fa-sync"></i></a>
     </div>
     <div class="nav-item">
-        <a href="/item?order_id={{the_order_id}}"><i class="far fa-plus-square"></i></a>
+        <a href="/item?order_id={{the_order_id}}"><i class="fas fa-cart-plus"></i></a>
     </div>
 </nav>
 <div class="container-fluid my-2">
