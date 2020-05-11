@@ -1,19 +1,28 @@
 {% extends 'base.html' %}
 {% block body %}
-<div class="d-flex justify-content-between my-2">
-    <a class="btn btn-outline-primary" href="/main" role="button">На главную</a>
-</div>
-<hr>
-<div class="row">
-    <div class="col">Название: {{ the_app_name }}</div>
-</div>
-<div class="row">
-    <div class="col">Авторы: {{ the_authors }}</div>
-</div>
-<div class="row">
-    <div class="col">Версия: <a class="link" href="/release_notes">{{ the_app_version }}</a></div>
-</div>
-<div class="text-center mt-4">
-    <img class="img-fluid center" src="static/chip-and-dale-circle.png">
+<nav class="navbar navbar-light">
+    <div class="nav-item">
+    <span><i class="fas fa-fw fa-bars"></i>О Программе</span>
+    </div>
+    <div class="nav-item">
+        <a href="/main"><i class="fas fa-home"></i></a>
+    </div>
+    <div class="nav-item">
+        <a href="javascript:window.location.reload(true)"><i class="fas fa-sync"></i></a>
+    </div>
+</nav>
+<div class="container-fluid my-2">
+    <div class="row">
+        <div class="col">Название: {{ the_app_name }}</div>
+    </div>
+    <div class="row">
+        <div class="col">Авторы: {{ the_authors }}</div>
+    </div>
+    <div class="row">
+        <div class="col">Версия: <a class="link" href="/release_notes">{{ the_app_version }}</a></div>
+    </div>
+    <div class="text-center mt-4">
+        <img class="img-fluid center" src="static/chip-and-dale-circle.png">
+    </div>
 </div>
 {% endblock %}

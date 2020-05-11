@@ -1,8 +1,22 @@
 html, body {
   font-family:      Verdana, Geneva, Arial, sans-serif;
   font-size:        medium;
-  background-color: #FFE0B2;
-  padding:          0.2rem;
+  background-color: #ffe8a6;
+}
+
+.navbar {
+    background-color: #b4e199;
+}
+.navbar a {
+  padding: 5px;
+  color: black;
+  font-size: 16px;
+}
+.dropdown-menu {
+    padding: .25rem .3rem;
+}
+a.dropdown-item {
+    font-size: 14px;
 }
 input[type=checkbox]:checked + label.strikethrough{
   text-decoration: line-through;
@@ -96,8 +110,8 @@ label {
 }
 
 .mybadge.badge-outlined.badge-success {
-  border-color: #13c53c;
-  color: #13c53c;
+  border-color: #29823d;
+  color: #29823d;
 }
 
 .mybadge.badge-outlined.badge-warning {
