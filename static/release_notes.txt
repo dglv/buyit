@@ -1,39 +1,48 @@
-*****************
-* Release 0.4.0 *
-*****************
-[Minor, NOT_STARTED]
-- Move to MySQL database.
 
 *****************
 * Release 0.3.0 *
 *****************
-[Bugfix, NOT_STARTED]
+[Minor, NOT_STARTED]
+- Allow users to edit their cards.
 - Implement grouping by item types.
+
+*****************
+* Release 0.2.7 *
+*****************
+[Bugfix, NOT_STARTED]
+- Move data to MySQL DB.
+- Automate deployment.
+
+*****************
+* Release 0.2.6 *
+*****************
+[Bugfix, NOT_STARTED]
+- Move data to MySQL DB.
 
 *****************
 * Release 0.2.5 *
 *****************
 [Bugfix, NOT_STARTED]
-- Add Exception handling.
-- Implement fancy logging.
+- Add testing.
 
 *****************
 * Release 0.2.4 *
 *****************
-[Bugfix, NOT_STARTED]
-- Allow users to edit their cards.
+[Bugfix, IN_PROGRESS, planned_date=5/17/2020]
+- Add Exception handling.
+- Implement fancy logging.
 
 *****************
 * Release 0.2.3 *
 *****************
-[Bugfix, IN_PROGRESS, planned_date=5/12/2020]
+[Bugfix, COMPLETED, release_date=5/11/2020]
 + Implement multiple orders.
 + Adjust height in custom banners.
 + Create a custom header on each page.
 + Add Refresh button on each page.
 + Change RemoveItem icons to crosses.
-- Fix CopyToClipboard button on each page.
-- Fix hover when an user click any image in the navbar.
++ Fix CopyToClipboard button on each page.
++ Fix hover when an user click any image in the navbar.
 + Fix tight navbar on the About and Release pages.
 + Fix OrderNumber title in the navbar on the Item and Order page.
 

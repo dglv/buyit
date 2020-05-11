@@ -70,7 +70,7 @@ def render_about_page():
     return render_template('about.html',
                            the_title='О Программе',
                            the_app_name='Покупашка',
-                           the_app_version='0.2.2',
+                           the_app_version='0.2.3',
                            the_authors='Артём Галовач, Дима Галовач')
 
 
