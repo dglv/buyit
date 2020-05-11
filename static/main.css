@@ -12,6 +12,9 @@ html, body {
   color: black;
   font-size: 16px;
 }
+.navbar .fas:hover {
+    color: white;
+}
 .dropdown-menu {
     padding: .25rem .3rem;
 }
