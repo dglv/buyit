@@ -34,8 +34,8 @@
 + Change RemoveItem icons to crosses.
 - Fix CopyToClipboard button on each page.
 - Fix hover when an user click any image in the navbar.
-- Fix tight navbar on the About and Release pages.
-- Fix OrderNumber title in the navbar on the Item and Order page.
++ Fix tight navbar on the About and Release pages.
++ Fix OrderNumber title in the navbar on the Item and Order page.
 
 *****************
 * Release 0.2.2 *
