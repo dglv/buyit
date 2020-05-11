@@ -14,19 +14,19 @@
 *****************
 * Release 0.2.4 *
 *****************
-[Bugfix, NOT_STARTED]
+[Bugfix, NOT_STARTED, planned_date=5/11/2020]
 - Implement grouping by item types.
 
 *****************
 * Release 0.2.3 *
 *****************
-[Bugfix, IN PROGRESS, planned_date=5/12/2020]
-- Fix possible issues connected with multiple items on the Order page.
+[Bugfix, IN_PROGRESS, planned_date=5/12/2020]
 + Implement multiple orders.
 + Adjust height in custom banners.
-- Create a custom header on each page.
-- Add Refresh button on each page.
++ Create a custom header on each page.
++ Add Refresh button on each page.
 + Change RemoveItem icons to crosses.
+- Fix CopyToClipboard button on each page.
 
 *****************
 * Release 0.2.2 *
