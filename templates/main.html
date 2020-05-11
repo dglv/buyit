@@ -1,26 +1,38 @@
 {% extends 'base.html' %}
 {% block body %}
-<div class="d-flex justify-content-center">
-    <h5>{{ the_title }}</h5>
-</div>
-{% for order_length in the_orders_lengths %}
+<nav class="navbar navbar-light">
+    <div class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span><i class="fas fa-fw fa-bars"></i>Главная</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/about">О Программе</a>
+        </div>
+    </div>
+    <div class="nav-item">
+        <a class="nav-link disabled" href="#"><i class="fas fa-external-link-alt"></i></a>
+    </div>
+    <div class="nav-item">
+        <a href="javascript:window.location.reload(true)"><i class="fas fa-sync"></i></a>
+    </div>
+</nav>
+<div class="container-fluid my-2">
+    {% for order_length in the_orders_lengths %}
     {% if loop.index % 2 != 0 %}
     <div class="row">
         <div class="col text-center my-2">
-            <a class="btn btn-block {% if order_length == 0 %} btn-outline-primary"  href="/item?order_id={{loop.index}}" {% else %} btn-outline-secondary"  href="/order?order_id={{loop.index}}" {% endif %}" role="button">Корзина {{loop.index}}</a>
+            <a class="btn btn-block {% if order_length == 0 %} btn-outline-primary" href="/item?order_id={{loop.index}}"
+               {% else %} btn-outline-secondary" href="/order?order_id={{loop.index}}" {% endif %}"
+            role="button">Корзина {{loop.index}}</a>
         </div>
-    {% else %}
+        {% else %}
         <div class="col text-center my-2">
-            <a class="btn btn-block {% if order_length == 0 %} btn-outline-primary"  href="/item?order_id={{loop.index}}" {% else %} btn-outline-secondary"  href="/order?order_id={{loop.index}}" {% endif %}" role="button">Корзина {{loop.index}}</a>
+            <a class="btn btn-block {% if order_length == 0 %} btn-outline-primary" href="/item?order_id={{loop.index}}"
+               {% else %} btn-outline-secondary" href="/order?order_id={{loop.index}}" {% endif %}"
+            role="button">Корзина {{loop.index}}</a>
         </div>
     </div>
     {% endif %}
-{% endfor %}
-<div class="row">
-    <div class="col text-center my-2">
-        <div class="btn-group-vertical">
-            <a class="btn btn-primary btn-block my-2" href="/about" role="button">О Программе</a>
-        </div>
-    </div>
+    {% endfor %}
 </div>
 {% endblock %}
