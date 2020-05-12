@@ -34,8 +34,8 @@
 [Bugfix, IN_PROGRESS, planned_date=5/17/2020]
 - Add Exception handling.
 - Implement fancy logging.
-- Make consistent titles in the headers.
-- Add shopping carts on the Main screen.
++ Make consistent titles in the headers.
++ Add shopping carts on the Main screen.
 - Add item counting to the cart icon on the Order page.
 - Add progress bar on the Order page.
 - Keep order files in json format.
