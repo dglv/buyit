@@ -50,7 +50,7 @@ def get_orders_lengths() -> list:
 
 
 _cache = {}
-for i in range(10):
+for i in range(8):
     _order_id = i + 1
     _order_filename = get_order_filename(_order_id)
     if os.path.isfile(_order_filename):
