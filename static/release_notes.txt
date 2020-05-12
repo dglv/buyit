@@ -24,7 +24,9 @@
 *****************
 [Bugfix, NOT_STARTED]
 - Implement notifications in the app.
+- Move properties to an external file.
 - Add testing.
+- Add localization.
 
 *****************
 * Release 0.2.4 *
@@ -32,7 +34,12 @@
 [Bugfix, IN_PROGRESS, planned_date=5/17/2020]
 - Add Exception handling.
 - Implement fancy logging.
-- Make titles in the headers more consistent.
+- Make consistent titles in the headers.
+- Add shopping carts on the Main screen.
+- Add item counting to the cart icon on the Order page.
+- Add progress bar on the Order page.
+- Keep order files in json format.
+- Implement drag & drop for carts on the Order page.
 
 *****************
 * Release 0.2.3 *
