@@ -106,7 +106,26 @@ $(document).ready(function() {
         if ($('#dragndropCheck').is(":checked")) {
             $(".cart-container").sortable({
                 connectWith: '.cart-container',
-                placeholder: 'drop-placeholder'
+                placeholder: 'drop-placeholder',
+                update: function(event, ui) {
+                    var position = ui.item.index();
+                    var form_this = ui.item.find('form:first');
+                    var item = form_this.find('input[name=item]').val();
+                    var order_id = form_this.find('input[name=order_id]').val()
+                    $.ajax({
+                        url: '/item_position',
+                        method: 'POST',
+                        data: {'order_id':order_id, 'item':item, 'position':position},
+                        dataType: 'json',
+                        success: function(data) {
+                            // do nothing
+                        },
+                        error: function(data) {
+                            alert("Error while sorting.");
+                            console.log(data);
+                        }
+                    });
+                }
             });
             $(".cart-container").sortable( "option", "disabled", false );
             $(".cart-container").disableSelection();
@@ -114,9 +133,6 @@ $(document).ready(function() {
             $(".cart-container").sortable("disable");
         }
     });
-
-
-
 
     if ($('form[name="order-form"]').length > 0 && $('.form-check-input').not(':checked').length == 0) {
         $('#notify-all-completed').prop('hidden', false);

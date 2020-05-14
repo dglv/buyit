@@ -45,6 +45,16 @@ def update_item():
         'ContentType': 'application/json'}
 
 
+@app.route('/item_position', methods=['POST'])
+def change_item_position():
+    order_id = request.form['order_id']
+    item = request.form['item']
+    position = request.form['position']
+    if item and position:
+        service.change_item_position(order_id, item, position)
+    return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
+
+
 @app.route('/item', methods=['DELETE'])
 def remove_item():
     order_id = request.form['order_id']
