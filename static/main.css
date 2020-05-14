@@ -3,6 +3,14 @@ html, body {
   font-size:        medium;
   background-color: #ffe8a6;
 }
+.drop-placeholder {
+    background-color: rgba(0,0,0,0.05);
+    height: 3.5em;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    line-height: 1.2em;
+    border-radius: .25rem;
+}
 .navbar {
     background-color: #b4e199;
 }
@@ -24,7 +32,8 @@ html, body {
 .dropdown-menu {
     padding: .25rem .3rem;
 }
-a.dropdown-item {
+a.dropdown-item, div.dropdown-item {
+    padding: 5px;
     font-size: 14px;
 }
 input[type=checkbox]:checked + label.strikethrough{
@@ -136,4 +145,7 @@ label {
 .mybadge.badge-outlined.badge-danger {
   border-color: #ef1c1c;
   color: #ef1c1c;
+}
+.fa-grip-lines-vertical {
+    height: 0.1em;
 }
