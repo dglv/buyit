@@ -10,7 +10,7 @@ app = Flask(__name__)
 def render_main_page():
     orders_lengths = service.get_orders_lengths()
     return render_template('main.html',
-                           the_title='Главная',
+                           the_title='Покупашка',
                            the_orders_lengths=orders_lengths)
 
 
@@ -43,6 +43,16 @@ def update_item():
         service.update_item(order_id, item, comment, is_checked)
     return json.dumps({'success': True, 'order_length': len(service.get_order(order_id))}), 200, {
         'ContentType': 'application/json'}
+
+
+@app.route('/item_position', methods=['POST'])
+def change_item_position():
+    order_id = request.form['order_id']
+    item = request.form['item']
+    position = request.form['position']
+    if item and position:
+        service.change_item_position(order_id, item, position)
+    return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
 
 @app.route('/item', methods=['DELETE'])

@@ -38,41 +38,49 @@
         </span>
         </div>
     </div>
-    {% for key, value in the_order.items() %}
-    <form name="order-form">
-        <input type="hidden" name="order_id" value="{{the_order_id}}">
-        <input type="hidden" name="item" value="{{ key }}">
-        <input type="hidden" name="comment" value="{{ value['comment'] }}">
-        <input type="hidden" name="is_checked">
-        <div class="card mb-1">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-10">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="checkBox{{ key }}" {% if value['is_checked']
-                            ==
-                            'true'
-                            %}
-                            checked="checked" {% endif %}>
-                            <label name="item-label" {% if value['is_checked'] == 'true' %} class="form-check-label
-                            strikethrough" {% else %}
-                            class="form-check-label" {% endif %} >{{ key }}</label>
+    <div class="cart-container">
+        {% for key, value in the_order.items() %}
+        <div class="sortable-card">
+            <div class="card mb-1">
+                <form name="order-form">
+                    <input type="hidden" name="order_id" value="{{the_order_id}}">
+                    <input type="hidden" name="item" value="{{ key }}">
+                    <input type="hidden" name="comment" value="{{ value['comment'] }}">
+                    <input type="hidden" name="is_checked">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-9">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="checkBox{{ key }}" {% if value['is_checked']
+                                    ==
+                                    'true'
+                                    %}
+                                    checked="checked" {% endif %}>
+                                    <label name="item-label" {% if value['is_checked'] == 'true' %}
+                                    class="form-check-label
+                                    strikethrough" {% else %}
+                                    class="form-check-label" {% endif %} >{{ key }}</label>
+                                </div>
+                            </div>
+                            <div class="col-1">
+                                <a class="dragandrop-button" role="button"><img src="static/drag-reorder-16.png"/></a>
+                            </div>
+                            <div class="col-1">
+                                <a class="remove-button" role="button"><img src="static/remove-16.png"/></a>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-1">
-                        <a class="remove-button" role="button"><img src="static/cross-16.png"/></a>
+                    <div id="collapsible-card-body" {% if value[
+                    'is_checked'] == 'true' or value['comment'] == ''%} class="collapse" {% endif %}>
+                    <div class="card-body">
+                        <small class="form-text text-muted" id="comment{{ key }}">{{ value['comment'] }}</small>
                     </div>
-                </div>
             </div>
-            <div id="collapsible-card-body" {% if value[
-            'is_checked'] == 'true' or value['comment'] == ''%} class="collapse" {% endif %}>
-            <div class="card-body">
-                <small class="form-text text-muted" id="comment{{ key }}">{{ value['comment'] }}</small>
-            </div>
+            </form>
         </div>
+    </div>
+    {% endfor %}
 </div>
-</form>
-{% endfor %}
 <div class="row float-left">
     <div class="col text-center my-2">
         <button id="removeCompleted" class="btn btn-primary btn-block my-2" type="button" {% if the_order is defined and
@@ -94,6 +102,36 @@
 </div>
 <script>
 $(document).ready(function() {
+    $('.dragandrop-button').on('mousedown touchstart', function() {
+        $(".cart-container").sortable({
+                connectWith: '.cart-container',
+                placeholder: 'drop-placeholder',
+                update: function(event, ui) {
+                    var position = ui.item.index();
+                    var form_this = ui.item.find('form:first');
+                    var item = form_this.find('input[name=item]').val();
+                    var order_id = form_this.find('input[name=order_id]').val()
+                    $.ajax({
+                        url: '/item_position',
+                        method: 'POST',
+                        data: {'order_id':order_id, 'item':item, 'position':position},
+                        dataType: 'json',
+                        success: function(data) {
+                            // do nothing
+                        },
+                        error: function(data) {
+                            alert("Error while sorting.");
+                            console.log(data);
+                        }
+                    });
+                }
+            });
+            $(".cart-container").sortable( "option", "disabled", false );
+            $(".cart-container").disableSelection();
+        }).on('mouseup touchend', function() {
+            $(".cart-container").sortable("disable");
+    });
+
     if ($('form[name="order-form"]').length > 0 && $('.form-check-input').not(':checked').length == 0) {
         $('#notify-all-completed').prop('hidden', false);
     } else {
@@ -115,7 +153,7 @@ $(document).ready(function() {
                         data: {'order_id':order_id, 'item':item},
                         dataType: 'json',
                         success: function(data) {
-                            self.parents('form:first').remove()
+                            self.closest('div[class^="sortable-card"]').remove()
                             if($('form[name="order-form"]').length == 0){
                                 $('#removeCompleted').prop('disabled', true)
 	                            $('#removeAll').prop('disabled', true)
@@ -181,19 +219,19 @@ $(document).ready(function() {
         init: function(elem) {
             elem.on('click', function(e) {
                 _this=$(this);
-                var forms_to_remove = []
+                var divs_to_remove = []
                 var items = [];
                 var order_id = $('form[name="order-form"]').find('input[name=order_id]').val()
-                $('form[name="order-form"]').each(function() {
-                    _form=$(this);
-                    var checkbox = _form.find('.form-check-input');
+                $('div[class^="sortable-card"]').each(function() {
+                    _div=$(this);
+                    var checkbox = _div.find('.form-check-input');
                     if( checkbox.is(":checked") == true ) {
-                        forms_to_remove.push(_form);
-                        items.push(_form.find('[name=item-label]').text());
+                        divs_to_remove.push(_div);
+                        items.push(_div.find('[name=item-label]').text());
                     }
                 });
                 e.preventDefault();
-                if(confirm('Удалить Зачеркнутое?')) {
+                if(confirm('Удалить зачеркнутые пункты?')) {
                     $.ajax({
                         url: '/items',
                         method: 'DELETE',
@@ -209,7 +247,7 @@ $(document).ready(function() {
                         },
                         success: function(data) {
                             window.setTimeout(function(){
-                                forms_to_remove.forEach(form => form.remove());
+                                divs_to_remove.forEach(div => div.remove());
                                 if($('form[name="order-form"]').length == 0){
                                     $('#removeCompleted').prop('disabled', true)
 	                                $('#removeAll').prop('disabled', true)
@@ -245,7 +283,7 @@ $(document).ready(function() {
                 var _this = $(this);
                 var order_id = $('form[name="order-form"]').find('input[name=order_id]').val()
                 e.preventDefault();
-                if(confirm('ВСЕ ДАННЫЕ будут удалены. Вы уверены?')) {
+                if(confirm('ВСЕ ТОВАРЫ будут удалены из корзины ' + order_id + '.\nВы уверены?')) {
                     $.ajax({
                         url: '/order',
                         method: 'DELETE',
@@ -260,7 +298,7 @@ $(document).ready(function() {
                         },
                         success: function(data) {
                             window.setTimeout(function(){
-                                $('form[name="order-form"]').remove();
+                                $('div[class^="sortable-card"]').remove()
                                 _this.prop('disabled', true);
                                 $('#removeCompleted').prop('disabled', true)
                                 $('#notify-empty').prop('hidden', false);
@@ -285,13 +323,5 @@ $(document).ready(function() {
     }
     allItemRemover.init($('#removeAll'));
 });
-
-
-
-
-
-
-
-
 </script>
 {% endblock %}

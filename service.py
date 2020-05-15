@@ -15,6 +15,21 @@ def update_item(order_id: int, item: str, comment: str, is_checked: str) -> None
     filehandler.write_as_json(order_filename, _cache[order_filename])
 
 
+def change_item_position(order_id: int, item: str, position: int) -> None:
+    order_filename = get_order_filename(order_id)
+    old_dict = _cache[order_filename].copy()
+    old_keys = []
+    for key in old_dict.keys():
+        old_keys.append(key)
+    old_index = old_keys.index(item)
+    old_keys.insert(int(position), old_keys.pop(old_index))
+    new_dict = {}
+    for key in old_keys:
+        new_dict[key] = old_dict[key]
+    _cache[order_filename] = new_dict
+    filehandler.write_as_json(order_filename, _cache[order_filename])
+
+
 def get_item(order_id: int, item: str) -> dict:
     order_filename = get_order_filename(order_id)
     return {item: _cache[order_filename][item]}

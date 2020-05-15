@@ -27,6 +27,8 @@
 - Move properties to an external file.
 - Add testing.
 - Add localization.
+- Create a new statistic related page
+- Add progress bar on the Statistics page.
 
 *****************
 * Release 0.2.4 *
@@ -34,12 +36,12 @@
 [Bugfix, IN_PROGRESS, planned_date=5/17/2020]
 - Add Exception handling.
 - Implement fancy logging.
+- Keep order files in json format.
 + Make consistent titles in the headers.
 + Add shopping carts on the Main screen.
-- Add item counting to the cart icon on the Order page.
-- Add progress bar on the Order page.
-- Keep order files in json format.
-- Implement drag & drop for carts on the Order page.
++ Implement drag & drop for carts on the Order page.
++ Add cart number for RemoveAll alert.
++ Change title for the Main page.
 
 *****************
 * Release 0.2.3 *
