@@ -66,7 +66,16 @@
                                 <a class="dragandrop-button" role="button"><img src="static/drag-reorder-16.png"/></a>
                             </div>
                             <div class="col-1">
-                                <a class="remove-button" role="button"><img src="static/remove-16.png"/></a>
+                                <!--<a class="remove-button" role="button"><img src="static/remove-16.png"/></a>-->
+                                <div class="dropleft">
+                                    <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="static/item-menu2-16.png"/>
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" hidden="true"><span><i class="fas fa-pen"></i> Редактировать</span></a>
+                                        <a class="dropdown-item remove-button"><span><i class="far fa-trash-alt"></i> Удалить</span></a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
