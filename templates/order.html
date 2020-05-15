@@ -8,10 +8,7 @@
             <span><i class="fas fa-fw fa-bars"></i>Корзина {{the_order_id}}</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <div class="dropdown-item">
-                <input type="checkbox" id="dragndropCheck">
-                <label for="dragndropCheck">Перемещение</label>
-            </div>
+            <a class="dropdown-item" href="/about">О Программе</a>
         </div>
     </div>
     <div class="nav-item">
@@ -105,8 +102,8 @@
 </div>
 <script>
 $(document).ready(function() {
-$('.dragandrop-button').on('mousedown touchstart', function() {
-    $(".cart-container").sortable({
+    $('.dragandrop-button').on('mousedown touchstart', function() {
+        $(".cart-container").sortable({
                 connectWith: '.cart-container',
                 placeholder: 'drop-placeholder',
                 update: function(event, ui) {
@@ -131,40 +128,8 @@ $('.dragandrop-button').on('mousedown touchstart', function() {
             });
             $(".cart-container").sortable( "option", "disabled", false );
             $(".cart-container").disableSelection();
-    }).on('mouseup touchend', function() {
+        }).on('mouseup touchend', function() {
             $(".cart-container").sortable("disable");
-    });
-    
-    $("#dragndropCheck").click(function(){
-        if ($('#dragndropCheck').is(":checked")) {
-            $(".cart-container").sortable({
-                connectWith: '.cart-container',
-                placeholder: 'drop-placeholder',
-                update: function(event, ui) {
-                    var position = ui.item.index();
-                    var form_this = ui.item.find('form:first');
-                    var item = form_this.find('input[name=item]').val();
-                    var order_id = form_this.find('input[name=order_id]').val()
-                    $.ajax({
-                        url: '/item_position',
-                        method: 'POST',
-                        data: {'order_id':order_id, 'item':item, 'position':position},
-                        dataType: 'json',
-                        success: function(data) {
-                            // do nothing
-                        },
-                        error: function(data) {
-                            alert("Error while sorting.");
-                            console.log(data);
-                        }
-                    });
-                }
-            });
-            $(".cart-container").sortable( "option", "disabled", false );
-            $(".cart-container").disableSelection();
-        } else {
-            $(".cart-container").sortable("disable");
-        }
     });
 
     if ($('form[name="order-form"]').length > 0 && $('.form-check-input').not(':checked').length == 0) {
