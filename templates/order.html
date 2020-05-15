@@ -105,7 +105,7 @@
 </div>
 <script>
 $(document).ready(function() {
-$('.dragandrop-button').on('mousedown', function() {
+$('.dragandrop-button').on('mousedown touchstart', function() {
     $(".cart-container").sortable({
                 connectWith: '.cart-container',
                 placeholder: 'drop-placeholder',
@@ -131,7 +131,7 @@ $('.dragandrop-button').on('mousedown', function() {
             });
             $(".cart-container").sortable( "option", "disabled", false );
             $(".cart-container").disableSelection();
-    }).on('mouseup mouseleave', function() {
+    }).on('mouseup touchend', function() {
             $(".cart-container").sortable("disable");
     });
     
