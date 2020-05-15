@@ -40,6 +40,8 @@
 - Add progress bar on the Order page.
 - Keep order files in json format.
 - Implement drag & drop for carts on the Order page.
+- Add cart number for RemoveAll alert.
+- Change title for the Main page.
 
 *****************
 * Release 0.2.3 *
