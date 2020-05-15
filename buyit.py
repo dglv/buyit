@@ -10,7 +10,7 @@ app = Flask(__name__)
 def render_main_page():
     orders_lengths = service.get_orders_lengths()
     return render_template('main.html',
-                           the_title='Главная',
+                           the_title='Покупашка',
                            the_orders_lengths=orders_lengths)
 
 
