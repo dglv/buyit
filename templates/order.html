@@ -52,7 +52,7 @@
                     <input type="hidden" name="is_checked">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-10">
+                            <div class="col-9">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="checkBox{{ key }}" {% if value['is_checked']
                                     ==
@@ -64,6 +64,9 @@
                                     strikethrough" {% else %}
                                     class="form-check-label" {% endif %} >{{ key }}</label>
                                 </div>
+                            </div>
+                            <div class="col-1">
+                                <a class="dragandrop-button" role="button"><img src="static/drag-reorder-11.png"/></a>
                             </div>
                             <div class="col-1">
                                 <a class="remove-button" role="button"><img src="static/cross-16.png"/></a>
@@ -102,6 +105,36 @@
 </div>
 <script>
 $(document).ready(function() {
+$('.dragandrop-button').on('mousedown', function() {
+    $(".cart-container").sortable({
+                connectWith: '.cart-container',
+                placeholder: 'drop-placeholder',
+                update: function(event, ui) {
+                    var position = ui.item.index();
+                    var form_this = ui.item.find('form:first');
+                    var item = form_this.find('input[name=item]').val();
+                    var order_id = form_this.find('input[name=order_id]').val()
+                    $.ajax({
+                        url: '/item_position',
+                        method: 'POST',
+                        data: {'order_id':order_id, 'item':item, 'position':position},
+                        dataType: 'json',
+                        success: function(data) {
+                            // do nothing
+                        },
+                        error: function(data) {
+                            alert("Error while sorting.");
+                            console.log(data);
+                        }
+                    });
+                }
+            });
+            $(".cart-container").sortable( "option", "disabled", false );
+            $(".cart-container").disableSelection();
+    }).on('mouseup mouseleave', function() {
+            $(".cart-container").sortable("disable");
+    });
+    
     $("#dragndropCheck").click(function(){
         if ($('#dragndropCheck').is(":checked")) {
             $(".cart-container").sortable({
