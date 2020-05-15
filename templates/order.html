@@ -292,7 +292,7 @@ $(document).ready(function() {
                 var _this = $(this);
                 var order_id = $('form[name="order-form"]').find('input[name=order_id]').val()
                 e.preventDefault();
-                if(confirm('ВСЕ ТОВАРЫ будут удалены из корзины ' + order_id + '.\nВы уверены?')) {
+                if(confirm('ВСЕ ТОВАРЫ будут удалены из корзины ' + order_id + '. Вы уверены?')) {
                     $.ajax({
                         url: '/order',
                         method: 'DELETE',
