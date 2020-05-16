@@ -66,6 +66,19 @@ label {
     word-wrap: break-word;
 }
 
+.btn-outline-dark {
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+.btn-outline-dark:not(:disabled):not(.disabled).active, .btn-outline-dark:not(:disabled):not(.disabled):active, .show>.btn-outline-dark.dropdown-toggle {
+    background-color: rgba(0,0,0,.125);
+    border-color: rgba(0,0,0,.125);
+}
+.btn-outline-dark:hover {
+    background-color: rgba(0,0,0,.125);
+    border-color: rgba(0,0,0,.125);
+}
+
 .mybadge {
   display: inline-block;
   font-size: x-small;

@@ -21,13 +21,13 @@
     {% if loop.index % 2 != 0 %}
     <div class="row">
         <div class="col text-center my-2">
-            <a class="btn btn-block btn-outline-dark"{% if order_length == 0 %} href="/item?order_id={{loop.index}}"><img src="static/icons8-empty-cart-64.png"/>{% else %}
-                href="/order?order_id={{loop.index}}"><img src="static/icons8-full-cart-64.png"/>{% endif %}{{loop.index}}</a>
+            <a class="btn btn-block btn-outline-dark"{% if order_length == 0 %} href="/item?order_id={{loop.index}}"><img src="static/empty-cart-64.png"/>{% else %}
+                href="/order?order_id={{loop.index}}"><img src="static/full-cart-64.png"/>{% endif %}{{loop.index}}</a>
         </div>
         {% else %}
         <div class="col text-center my-2">
-            <a class="btn btn-block btn-outline-dark"{% if order_length == 0 %} href="/item?order_id={{loop.index}}"><img src="static/icons8-empty-cart-64.png"/>{% else %}
-                href="/order?order_id={{loop.index}}"><img src="static/icons8-full-cart-64.png"/>{% endif %}{{loop.index}}</a>
+            <a class="btn btn-block btn-outline-dark"{% if order_length == 0 %} href="/item?order_id={{loop.index}}"><img src="static/empty-cart-64.png"/>{% else %}
+                href="/order?order_id={{loop.index}}"><img src="static/full-cart-64.png"/>{% endif %}{{loop.index}}</a>
         </div>
     </div>
     {% endif %}
