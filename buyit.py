@@ -18,7 +18,7 @@ def render_main_page():
 def render_item_page():
     order_id = request.args.get('order_id')
     return render_template('item.html',
-                           the_title='Товары для Корзины ' + order_id,
+                           the_title='Товары для Тележки ' + order_id,
                            the_order_id=order_id,
                            the_order_length=len(service.get_order(order_id)))
 
@@ -29,7 +29,7 @@ def render_order_page():
     order = service.get_order(order_id)
     return render_template('order.html',
                            the_order_id=order_id,
-                           the_title='Корзина ' + order_id,
+                           the_title='Тележка ' + order_id,
                            the_order=order)
 
 
