@@ -82,6 +82,10 @@
                     'is_checked'] == 'true' or value['comment'] == ''%} class="collapse" {% endif %}>
                     <div class="card-body">
                         <small class="form-text text-muted" id="comment{{ key }}">{{ value['comment'] }}</small>
+                        <div class="save-cancel-group" hidden="true">
+                            <button id="save-item-button" class="btn btn-primary">Сохранить</button>
+                            <button id="cancel-item-button" class="btn btn-secondary">Отмена</button>
+                        </div>
                     </div>
             </div>
             </form>
@@ -331,5 +335,6 @@ $(document).ready(function() {
     }
     allItemRemover.init($('#removeAll'));
 });
+
 </script>
 {% endblock %}
