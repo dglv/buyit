@@ -11,6 +11,10 @@ html, body {
     line-height: 1.2em;
     border-radius: .25rem;
 }
+.modal-header {
+    padding: 1rem;
+}
+
 .navbar {
     background-color: #b4e199;
 }
@@ -47,6 +51,9 @@ input[type=checkbox]:checked + label.strikethrough{
     background-color: transparent;
     outline: none;
 }
+.edit-item{
+    padding: 0.5rem;
+}
 .card {
     background-color: transparent;
 }
@@ -64,6 +71,21 @@ label {
     width:100%;
     overflow-wrap: break-word;
     word-wrap: break-word;
+}
+
+.btn-outline-dark {
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+.btn-outline-dark:not(:disabled):not(.disabled).active, .btn-outline-dark:not(:disabled):not(.disabled):active, .show>.btn-outline-dark.dropdown-toggle {
+    background-color: rgba(0,0,0,.125);
+    border-color: rgba(0,0,0,.125);
+}
+
+.btn-outline-dark:hover {
+    background-color: rgba(0,0,0,.125);
+    border-color: rgba(0,0,0,.125);
 }
 
 .mybadge {

@@ -5,7 +5,7 @@
     <div class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
            aria-haspopup="true" aria-expanded="false">
-            <span><i class="fas fa-fw fa-bars"></i>Корзина {{the_order_id}}</span>
+            <span><i class="fas fa-fw fa-bars"></i>Тележка {{the_order_id}}</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="/about">О Программе</a>
@@ -42,7 +42,7 @@
         {% for key, value in the_order.items() %}
         <div class="sortable-card">
             <div class="card mb-1">
-                <form name="order-form">
+                <form id="card{{ key }}" name="order-form">
                     <input type="hidden" name="order_id" value="{{the_order_id}}">
                     <input type="hidden" name="item" value="{{ key }}">
                     <input type="hidden" name="comment" value="{{ value['comment'] }}">
@@ -62,11 +62,19 @@
                                     class="form-check-label" {% endif %} >{{ key }}</label>
                                 </div>
                             </div>
-                            <div class="col-1">
-                                <a class="dragandrop-button" role="button"><img src="static/drag-reorder-16.png"/></a>
+                            <div class="col-1 dragandrop-button text-center">
+                                <a role="button"><img src="static/drag-reorder-24.png"/></a>
                             </div>
                             <div class="col-1">
-                                <a class="remove-button" role="button"><img src="static/remove-16.png"/></a>
+                                <div class="dropleft">
+                                    <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="static/item-menu-24.png"/>
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item edit-button" onClick="javascript:showEditItemForm('{{ key }}')"><span><i class="fas fa-pen"></i> Редактировать</span></a>
+                                        <a class="dropdown-item remove-button"><span><i class="far fa-trash-alt"></i> Удалить</span></a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -75,7 +83,26 @@
                     <div class="card-body">
                         <small class="form-text text-muted" id="comment{{ key }}">{{ value['comment'] }}</small>
                     </div>
+                </form>
             </div>
+            <form id="editItemForm{{ key }}" class="edit-item needs-validation" novalidate hidden="true">
+                <div class="form-group">
+                    <input id="inputItem{{ key }}" name="item" type='TEXT' class="form-control" required disabled>
+                    <div class="invalid-feedback">
+                        Отсутствует название товара
+                    </div>
+                </div>
+                <div class="form-group">
+                        <textarea id="commentItem{{ key }}" name="comment" class="form-control" aria-describedby="commentHelp"
+                                  rows="5"></textarea>
+                </div>
+                <div class="text-right">
+                    <button type="button" class="btn btn-primary btn-sm save-item-changes">
+                        <span id="saveItemChangesSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        Сохранить
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm dismiss-item-changes" onClick="javascript:closeEditItemForm('{{ key }}')">Отмена</button>
+                </div>
             </form>
         </div>
     </div>
@@ -95,7 +122,7 @@
                 disabled="true" {% endif %}>
                 <span id="removeAllSpinner" class="spinner-border spinner-border-sm d-none" role="status"
                       aria-hidden="true"></span>
-            Очистить Корзину
+            Очистить Тележку
         </button>
     </div>
 </div>
@@ -171,6 +198,70 @@ $(document).ready(function() {
         },
     }
     itemRemover.init($('.remove-button'));
+    
+    var itemEditor = {
+        init: function(elem) {
+            elem.on('click', function(e) {
+                self=$(this);
+                var form_this = self.parents('form:first');
+                var item = form_this.find('input[name=item]').val();
+                var comment = form_this.find('textarea[name=comment]').val();
+                
+                var card_form = $('#card' + item);
+                var order_id = card_form.find('input[name=order_id]').val();
+                var checkbox_card_form = card_form.find('input[id=checkBox' + item + ']');
+                var is_checked = checkbox_card_form.is(":checked") == true ? true : false;
+
+                e.preventDefault();
+                $.ajax({
+                    url: '/item',
+                    method: 'POST',
+                    data: {
+                        order_id: order_id,
+                        item: item,
+                        comment: comment,
+                        is_checked: is_checked
+                    },
+                    dataType: 'html',
+                    beforeSend: function () {
+                        self.prop('disabled', true);
+                        self.find('.spinner-border').removeClass('d-none');
+                        form_this.find('button[class=dismiss-item-changes]').prop('disabled', true);
+                        form_this.find('textarea[class=form-control]').prop('disabled', true);
+                    },
+                    success: function(data) {
+                        window.setTimeout(function(){
+                            card_form.find('input[name=item]').val(item);
+                            card_form.find('input[name=comment]').val(comment);
+                            $('#comment' + item).text(comment);
+                            if( checkbox_card_form.is(":checked") == true ) {
+                                card_form.find('[id=collapsible-card-body]').addClass('collapse')
+                            } else {
+                                card_form.find('[id=collapsible-card-body]').removeClass('collapse')
+                                if ( comment.length == '' ) {
+                                    card_form.find('[id=collapsible-card-body]').addClass('collapse')
+                                }
+                            }
+                        }, 100);
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                })
+                .always(function(){
+                    window.setTimeout(function(){
+                        self.prop('disabled', false)
+                        self.find('.spinner-border').addClass('d-none');
+                        form_this.find('button[class=dismiss-item-changes]').prop('disabled', false);
+                        form_this.find('textarea[class=form-control]').prop('disabled', false);
+                        $('#card' + item).attr('hidden', false);
+                        $('#editItemForm' + item).attr('hidden', true);
+                    }, 100);
+                });
+            })
+        },
+    }
+    itemEditor.init($('.save-item-changes'));
     
     $(".form-check-input").click(function(){
         if ($('.form-check-input').not(':checked').length == 0) {
@@ -283,7 +374,7 @@ $(document).ready(function() {
                 var _this = $(this);
                 var order_id = $('form[name="order-form"]').find('input[name=order_id]').val()
                 e.preventDefault();
-                if(confirm('ВСЕ ТОВАРЫ будут удалены из корзины ' + order_id + '.\nВы уверены?')) {
+                if(confirm('ВСЕ ТОВАРЫ будут удалены из тележки ' + order_id + '. Вы уверены?')) {
                     $.ajax({
                         url: '/order',
                         method: 'DELETE',
@@ -323,5 +414,6 @@ $(document).ready(function() {
     }
     allItemRemover.init($('#removeAll'));
 });
+
 </script>
 {% endblock %}

@@ -18,7 +18,7 @@ def render_main_page():
 def render_item_page():
     order_id = request.args.get('order_id')
     return render_template('item.html',
-                           the_title='Товары для Корзины ' + order_id,
+                           the_title='Товары для Тележки ' + order_id,
                            the_order_id=order_id,
                            the_order_length=len(service.get_order(order_id)))
 
@@ -29,7 +29,7 @@ def render_order_page():
     order = service.get_order(order_id)
     return render_template('order.html',
                            the_order_id=order_id,
-                           the_title='Корзина ' + order_id,
+                           the_title='Тележка ' + order_id,
                            the_order=order)
 
 
@@ -80,7 +80,7 @@ def render_about_page():
     return render_template('about.html',
                            the_title='О Программе',
                            the_app_name='Покупашка',
-                           the_app_version='0.2.3',
+                           the_app_version='0.2.4',
                            the_authors='Артём Галовач, Дима Галовач')
 
 
