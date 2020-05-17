@@ -51,18 +51,8 @@ input[type=checkbox]:checked + label.strikethrough{
     background-color: transparent;
     outline: none;
 }
-.modal-content {
-    background-color: #ffe8a6;
-}
-div.modal-header{
-    border-bottom: None;
-    padding:  .75rem 1rem 0rem 1rem;
-}
-div.modal-body{
-    padding: 0rem 1rem;
-}
-div.form-group {
-    width: 100%;
+.edit-item{
+    padding: 0.5rem;
 }
 .card {
     background-color: transparent;

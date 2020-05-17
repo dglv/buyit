@@ -10,8 +10,16 @@ function copyToClipboard() {
     return false;
 }
 
-function showEditItemModal(item, commentary) {
-   $('#editModalItem').val(item)
-   $('#editModalCommentary').val(commentary);
-   $('#editModal').modal('show');
+function showEditItemForm(item) {
+   card_form = $('#card' + item);
+   edit_form = $('#editItemForm' + item);
+   edit_form.find('input[name=item]').val(card_form.find('input[name=item]').val())
+   edit_form.find('textarea[name=comment]').val(card_form.find('input[name=comment]').val())
+   $('#card' + item).attr('hidden', true);
+   $('#editItemForm' + item).attr('hidden', false);
+}
+
+function closeEditItemForm(item) {
+   $('#card' + item).attr('hidden', false);
+   $('#editItemForm' + item).attr('hidden', true);
 }
