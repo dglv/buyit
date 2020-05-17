@@ -71,7 +71,7 @@
                                         <img src="static/item-menu-24.png"/>
                                     </a>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" hidden="true"><span><i class="fas fa-pen"></i> Редактировать</span></a>
+                                        <a class="dropdown-item edit-button" onClick="javascript:showEditItemModal('{{ key }}', '{{ value['comment'] }}')"><span><i class="fas fa-pen"></i> Редактировать</span></a>
                                         <a class="dropdown-item remove-button"><span><i class="far fa-trash-alt"></i> Удалить</span></a>
                                     </div>
                                 </div>
@@ -82,16 +82,40 @@
                     'is_checked'] == 'true' or value['comment'] == ''%} class="collapse" {% endif %}>
                     <div class="card-body">
                         <small class="form-text text-muted" id="comment{{ key }}">{{ value['comment'] }}</small>
-                        <div class="save-cancel-group" hidden="true">
-                            <button id="save-item-button" class="btn btn-primary">Сохранить</button>
-                            <button id="cancel-item-button" class="btn btn-secondary">Отмена</button>
-                        </div>
                     </div>
             </div>
             </form>
         </div>
     </div>
     {% endfor %}
+</div>
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="form-group">
+                <label for="editModalItem">Товар</label>
+                <input id="editModalItem" name="item" type='TEXT' class="form-control" aria-describedby="itemHelp" required disabled>
+                <div class="invalid-feedback">
+                    Отсутствует название товара
+                </div>
+                <small id="itemlHelp" class="form-text text-muted">Что купить?</small>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="editModalCommentary">Комментарий</label>
+                    <textarea id="editModalCommentary" name="comment" class="form-control" aria-describedby="commentHelp"
+                              rows="5"></textarea>
+                    <small id="commentHelp" class="form-text text-muted">Какие будут комментарии?</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="row float-left">
     <div class="col text-center my-2">

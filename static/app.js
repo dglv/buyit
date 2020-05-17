@@ -9,3 +9,9 @@ function copyToClipboard() {
     document.body.removeChild(dummy);
     return false;
 }
+
+function showEditItemModal(item, commentary) {
+   $('#editModalItem').val(item)
+   $('#editModalCommentary').val(commentary);
+   $('#editModal').modal('show');
+}

@@ -18,6 +18,7 @@
 *****************
 [Bugfix, NOT_STARTED]
 - Move data to MySQL DB.
+- Add tags for sorting purposes.
 
 *****************
 * Release 0.2.5 *
