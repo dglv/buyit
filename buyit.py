@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+import uuid
 import json
 import service
 
@@ -36,11 +37,21 @@ def render_order_page():
 @app.route('/item', methods=['POST'])
 def update_item():
     order_id = request.form['order_id']
-    item = request.form['item']
+    if 'item_id' in request.form:
+        item_id = request.form['item_id']
+    else:
+        item_id = str(uuid.uuid4())
+    name = request.form['name']
     comment = request.form['comment']
     is_checked = request.form['is_checked']
-    if item:
-        service.update_item(order_id, item, comment, is_checked)
+
+    item = {
+        'id': item_id,
+        'name': name,
+        'comment': comment,
+        'is_checked': is_checked
+    }
+    service.update_item(order_id, item)
     return json.dumps({'success': True, 'order_length': len(service.get_order(order_id))}), 200, {
         'ContentType': 'application/json'}
 
@@ -48,30 +59,30 @@ def update_item():
 @app.route('/item_position', methods=['POST'])
 def change_item_position():
     order_id = request.form['order_id']
-    item = request.form['item']
+    item_id = request.form['item_id']
     position = request.form['position']
-    if item and position:
-        service.change_item_position(order_id, item, position)
+    if item_id and position:
+        service.change_item_position(order_id, item_id, position)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
 
 @app.route('/item', methods=['DELETE'])
 def remove_item():
     order_id = request.form['order_id']
-    item = request.form['item']
-    if item:
-        service.remove_item(order_id, item)
+    item_id = request.form['item_id']
+    if item_id:
+        service.remove_item(order_id, item_id)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
 
 @app.route('/items', methods=['DELETE'])
 def remove_items():
     order_id = request.form['order_id']
-    items_str = request.form['items']
-    if items_str:
-        items = json.loads(items_str)
-        for i in items:
-            service.remove_item(order_id, i)
+    item_ids_str = request.form['item_ids']
+    if item_ids_str:
+        item_ids = json.loads(item_ids_str)
+        for item_id in item_ids:
+            service.remove_item(order_id, item_id)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
 
