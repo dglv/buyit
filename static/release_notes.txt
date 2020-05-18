@@ -32,8 +32,8 @@
 * Release 0.2.5 *
 *****************
 [Bugfix, IN_PROGRESS, planned_date=5/22/2020]
-- Rework existing data structures to use guids as keys in dictionaries.
 - Keep order files in json format.
+- Rework existing data structures to use guids as keys in dictionaries.
 - Fix item validation in the edit forms on the Item page.
 - Fix edit form appearing for few-words items on the Order page.
 - Fix multiple lines in card bodies on the Order page.

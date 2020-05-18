@@ -1,7 +1,7 @@
 import os.path
 import filehandler
 
-ORDER_TEMPLATE = 'order_{}.txt'
+ORDER_TEMPLATE = 'order_{}.json'
 RELEASE_NOTES_FILE = 'release_notes.txt'
 
 
