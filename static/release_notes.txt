@@ -12,6 +12,10 @@
 [Bugfix, NOT_STARTED]
 - Move data to MySQL DB.
 - Automate deployment.
+- Create a new statistic related page
+- Add progress bar on the Statistics page.
+- Add Exception handling.
+- Implement fancy logging.
 
 *****************
 * Release 0.2.6 *
@@ -19,24 +23,20 @@
 [Bugfix, NOT_STARTED]
 - Move data to MySQL DB.
 - Add tags for sorting purposes.
-
-*****************
-* Release 0.2.5 *
-*****************
-[Bugfix, NOT_STARTED]
 - Implement notifications in the app.
 - Move properties to an external file.
 - Add testing.
 - Add localization.
-- Create a new statistic related page
-- Add progress bar on the Statistics page.
-- Fix the case when the edit form is not appear for some items.
-- Fix multiple lines in card bodies on the Order page.
-- Add Exception handling.
-- Implement fancy logging.
+
+*****************
+* Release 0.2.5 *
+*****************
+[Bugfix, IN_PROGRESS, planned_date=5/22/2020]
+- Rework existing data structures to use guids as keys in dictionaries.
 - Keep order files in json format.
 - Fix item validation in the edit forms on the Item page.
-
+- Fix edit form appearing for few-words items on the Order page.
+- Fix multiple lines in card bodies on the Order page.
 
 *****************
 * Release 0.2.4 *
