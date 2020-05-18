@@ -5,6 +5,7 @@
 [Minor, NOT_STARTED]
 - Implement grouping by item types.
 - Make sure item`s names can be changed in the edit form on the Item page.
+- Add tags for sorting purposes.
 
 *****************
 * Release 0.2.7 *
@@ -21,22 +22,20 @@
 * Release 0.2.6 *
 *****************
 [Bugfix, NOT_STARTED]
-- Move data to MySQL DB.
-- Add tags for sorting purposes.
 - Implement notifications in the app.
 - Move properties to an external file.
-- Add testing.
 - Add localization.
 
 *****************
 * Release 0.2.5 *
 *****************
 [Bugfix, IN_PROGRESS, planned_date=5/22/2020]
-- Keep order files in json format.
-- Rework existing data structures to use guids as keys in dictionaries.
++ Keep order files in json format.
++ Rework existing data structures to use guids as keys in dictionaries.
++ Fix edit form appearing for few-words items on the Order page.
 - Fix item validation in the edit forms on the Item page.
-- Fix edit form appearing for few-words items on the Order page.
 - Fix multiple lines in card bodies on the Order page.
+- Add testing.
 
 *****************
 * Release 0.2.4 *
