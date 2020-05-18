@@ -10,16 +10,17 @@ function copyToClipboard() {
     return false;
 }
 
-function showEditItemForm(item) {
-   card_form = $('#card' + item);
-   edit_form = $('#editItemForm' + item);
-   edit_form.find('input[name=item]').val(card_form.find('input[name=item]').val())
+function showEditItemForm(item_id) {
+   card_form = $('#card' + item_id);
+   edit_form = $('#editItemForm' + item_id);
+   edit_form.find('input[name=item_id]').val(card_form.find('input[name=item_id]').val())
+   edit_form.find('input[name=name]').val(card_form.find('input[name=name]').val())
    edit_form.find('textarea[name=comment]').val(card_form.find('input[name=comment]').val())
-   $('#card' + item).attr('hidden', true);
-   $('#editItemForm' + item).attr('hidden', false);
+   $('#card' + item_id).attr('hidden', true);
+   $('#editItemForm' + item_id).attr('hidden', false);
 }
 
-function closeEditItemForm(item) {
-   $('#card' + item).attr('hidden', false);
-   $('#editItemForm' + item).attr('hidden', true);
+function closeEditItemForm(item_id) {
+   $('#card' + item_id).attr('hidden', false);
+   $('#editItemForm' + item_id).attr('hidden', true);
 }

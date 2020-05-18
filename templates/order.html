@@ -39,27 +39,28 @@
         </div>
     </div>
     <div class="cart-container">
-        {% for key, value in the_order.items() %}
+        {% for item in the_order %}
         <div class="sortable-card">
             <div class="card mb-1">
-                <form id="card{{ key }}" name="order-form">
+                <form id="card{{ item['id'] }}" name="order-form">
                     <input type="hidden" name="order_id" value="{{the_order_id}}">
-                    <input type="hidden" name="item" value="{{ key }}">
-                    <input type="hidden" name="comment" value="{{ value['comment'] }}">
+                    <input type="hidden" name="item_id" value="{{ item['id'] }}">
+                    <input type="hidden" name="name" value="{{ item['name'] }}">
+                    <input type="hidden" name="comment" value="{{ item['comment'] }}">
                     <input type="hidden" name="is_checked">
                     <div class="card-header">
                         <div class="row">
                             <div class="col-9">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="checkBox{{ key }}" {% if value['is_checked']
+                                    <input class="form-check-input" type="checkbox" id="checkBox{{ item['id'] }}" {% if item['is_checked']
                                     ==
                                     'true'
                                     %}
                                     checked="checked" {% endif %}>
-                                    <label name="item-label" {% if value['is_checked'] == 'true' %}
+                                    <label name="item-label" id="item{{ item['id'] }}" {% if item['is_checked'] == 'true' %}
                                     class="form-check-label
                                     strikethrough" {% else %}
-                                    class="form-check-label" {% endif %} >{{ key }}</label>
+                                    class="form-check-label" {% endif %} >{{ item['name'] }}</label>
                                 </div>
                             </div>
                             <div class="col-1 dragandrop-button text-center">
@@ -71,29 +72,29 @@
                                         <img src="static/item-menu-24.png"/>
                                     </a>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item edit-button" onClick="javascript:showEditItemForm('{{ key }}')"><span><i class="fas fa-pen"></i> Редактировать</span></a>
+                                        <a class="dropdown-item edit-button" onClick="javascript:showEditItemForm('{{ item['id'] }}')"><span><i class="fas fa-pen"></i> Редактировать</span></a>
                                         <a class="dropdown-item remove-button"><span><i class="far fa-trash-alt"></i> Удалить</span></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div id="collapsible-card-body" {% if value[
-                    'is_checked'] == 'true' or value['comment'] == ''%} class="collapse" {% endif %}>
+                    <div id="collapsible-card-body" {% if item['is_checked'] == 'true' or item['comment'] == ''%} class="collapse" {% endif %}>
                     <div class="card-body">
-                        <small class="form-text text-muted" id="comment{{ key }}">{{ value['comment'] }}</small>
+                        <small class="form-text text-muted" id="comment{{ item['id'] }}">{{ item['comment'] }}</small>
                     </div>
                 </form>
             </div>
-            <form id="editItemForm{{ key }}" class="edit-item needs-validation" novalidate hidden="true">
+            <form id="editItemForm{{ item['id'] }}" class="edit-item needs-validation" novalidate hidden="true">
+                <input type="hidden" name="item_id">
                 <div class="form-group">
-                    <input id="inputItem{{ key }}" name="item" type='TEXT' class="form-control" required disabled>
+                    <input id="inputItem{{ item['id'] }}" name="name" type='TEXT' class="form-control" required>
                     <div class="invalid-feedback">
                         Отсутствует название товара
                     </div>
                 </div>
                 <div class="form-group">
-                        <textarea id="commentItem{{ key }}" name="comment" class="form-control" aria-describedby="commentHelp"
+                        <textarea id="commentItem{{ item['id'] }}" name="comment" class="form-control" aria-describedby="commentHelp"
                                   rows="5"></textarea>
                 </div>
                 <div class="text-right">
@@ -101,7 +102,7 @@
                         <span id="saveItemChangesSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                         Сохранить
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm dismiss-item-changes" onClick="javascript:closeEditItemForm('{{ key }}')">Отмена</button>
+                    <button type="button" class="btn btn-secondary btn-sm dismiss-item-changes" onClick="javascript:closeEditItemForm('{{ item['id'] }}')">Отмена</button>
                 </div>
             </form>
         </div>
@@ -136,12 +137,12 @@ $(document).ready(function() {
                 update: function(event, ui) {
                     var position = ui.item.index();
                     var form_this = ui.item.find('form:first');
-                    var item = form_this.find('input[name=item]').val();
+                    var item_id = form_this.find('input[name=item_id]').val();
                     var order_id = form_this.find('input[name=order_id]').val()
                     $.ajax({
                         url: '/item_position',
                         method: 'POST',
-                        data: {'order_id':order_id, 'item':item, 'position':position},
+                        data: {'order_id':order_id, 'item_id':item_id, 'position':position},
                         dataType: 'json',
                         success: function(data) {
                             // do nothing
@@ -170,14 +171,15 @@ $(document).ready(function() {
             elem.on('click', function(e) {
                 self=$(this);
                 var form_this = self.parents('form:first')
-                var item = form_this.find('input[name=item]').val()
+                var item_id = form_this.find('input[name=item_id]').val()
                 var order_id = form_this.find('input[name=order_id]').val()
+                var name = form_this.find('input[name=name]').val()
                 e.preventDefault();
-                if(confirm('Удалить ' + item + '?')) {
+                if(confirm('Удалить ' + name + '?')) {
                     $.ajax({
                         url: '/item',
                         method: 'DELETE',
-                        data: {'order_id':order_id, 'item':item},
+                        data: {'order_id':order_id, 'item_id':item_id},
                         dataType: 'json',
                         success: function(data) {
                             self.closest('div[class^="sortable-card"]').remove()
@@ -204,12 +206,13 @@ $(document).ready(function() {
             elem.on('click', function(e) {
                 self=$(this);
                 var form_this = self.parents('form:first');
-                var item = form_this.find('input[name=item]').val();
+                var item_id = form_this.find('input[name=item_id]').val();
+                var name = form_this.find('input[name=name]').val();
                 var comment = form_this.find('textarea[name=comment]').val();
                 
-                var card_form = $('#card' + item);
+                var card_form = $('#card' + item_id);
                 var order_id = card_form.find('input[name=order_id]').val();
-                var checkbox_card_form = card_form.find('input[id=checkBox' + item + ']');
+                var checkbox_card_form = card_form.find('input[id=checkBox' + item_id + ']');
                 var is_checked = checkbox_card_form.is(":checked") == true ? true : false;
 
                 e.preventDefault();
@@ -218,7 +221,8 @@ $(document).ready(function() {
                     method: 'POST',
                     data: {
                         order_id: order_id,
-                        item: item,
+                        item_id: item_id,
+                        name: name,
                         comment: comment,
                         is_checked: is_checked
                     },
@@ -231,9 +235,10 @@ $(document).ready(function() {
                     },
                     success: function(data) {
                         window.setTimeout(function(){
-                            card_form.find('input[name=item]').val(item);
+                            card_form.find('input[name=name]').val(name);
                             card_form.find('input[name=comment]').val(comment);
-                            $('#comment' + item).text(comment);
+                            $('#item' + item_id).text(name);
+                            $('#comment' + item_id).text(comment);
                             if( checkbox_card_form.is(":checked") == true ) {
                                 card_form.find('[id=collapsible-card-body]').addClass('collapse')
                             } else {
@@ -254,8 +259,8 @@ $(document).ready(function() {
                         self.find('.spinner-border').addClass('d-none');
                         form_this.find('button[class=dismiss-item-changes]').prop('disabled', false);
                         form_this.find('textarea[class=form-control]').prop('disabled', false);
-                        $('#card' + item).attr('hidden', false);
-                        $('#editItemForm' + item).attr('hidden', true);
+                        $('#card' + item_id).attr('hidden', false);
+                        $('#editItemForm' + item_id).attr('hidden', true);
                     }, 100);
                 });
             })
@@ -311,14 +316,14 @@ $(document).ready(function() {
             elem.on('click', function(e) {
                 _this=$(this);
                 var divs_to_remove = []
-                var items = [];
+                var item_ids = [];
                 var order_id = $('form[name="order-form"]').find('input[name=order_id]').val()
                 $('div[class^="sortable-card"]').each(function() {
                     _div=$(this);
                     var checkbox = _div.find('.form-check-input');
                     if( checkbox.is(":checked") == true ) {
                         divs_to_remove.push(_div);
-                        items.push(_div.find('[name=item-label]').text());
+                        item_ids.push(_div.find('[name=item_id]').val());
                     }
                 });
                 e.preventDefault();
@@ -328,7 +333,7 @@ $(document).ready(function() {
                         method: 'DELETE',
                         data: {
                             order_id: order_id,
-                            items: JSON.stringify(items)
+                            item_ids: JSON.stringify(item_ids)
                         },
                         dataType: 'html',
                         beforeSend: function () {
